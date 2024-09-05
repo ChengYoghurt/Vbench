@@ -138,6 +138,7 @@ class VBench(object):
         results_dict = {}
         if dimension_list is None:
             dimension_list = self.build_full_dimension_list()
+            print0("Built full dimension list!!!")
         submodules_dict = init_submodules(dimension_list, local=local, read_frame=read_frame)
 
         cur_full_info_path = self.build_full_info_json(videos_path, name, dimension_list, prompt_list, mode=mode, **kwargs)
