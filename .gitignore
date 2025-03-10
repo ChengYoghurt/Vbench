@@ -175,3 +175,5 @@ prepublish-ci/*
 vbench2_beta_i2v/data
 
 evaluation_results
+
+*.zip
