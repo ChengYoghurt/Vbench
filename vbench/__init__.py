@@ -134,6 +134,7 @@ class VBench(object):
         save_json(cur_full_info_list, cur_full_info_path)
         # TODO: Handcrafted cur_full_info_list
         # cur_full_info_path = "/home/yfeng/ygcheng/src/VBench/vbench/osp_full_info.json"
+        # cur_full_info_path = "/home/yfeng/ygcheng/src/VBench/prompts/vbench_200/extracted_prompts_200.json"
         print0(f'Evaluation meta data saved to {cur_full_info_path}')
         return cur_full_info_path
 
@@ -142,6 +143,8 @@ class VBench(object):
         results_dict = {}
         if dimension_list is None:
             dimension_list = self.build_full_dimension_list()
+            # six_dimension_list = ["background_consistency", "object_class", "multiple_objects", "color", "spatial_relationship", "scene", "temporal_style", "human_action", "temporal_flickering", "appearance_style"] 
+            # dimension_list = six_dimension_list
             print0("Built full dimension list!!!")
         submodules_dict = init_submodules(dimension_list, local=local, read_frame=read_frame)
 

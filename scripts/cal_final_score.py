@@ -8,6 +8,25 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from constant import *
 
+ordered_keys = [
+    'subject consistency',
+    'motion smoothness',
+    'dynamic degree',
+    'aesthetic quality',
+    'imaging quality',
+    'overall consistency',
+    'background consistency',
+    'object class',
+    'multiple objects',
+    'color',
+    'spatial relationship',
+    'scene',
+    'temporal style',
+    'human action',
+    'temporal flickering',
+    'appearance style'
+]
+
 def submission(model_name, zip_file):
     os.makedirs(model_name, exist_ok=True)
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
@@ -72,12 +91,34 @@ if __name__=="__main__":
     parser.add_argument('--model_name', type=str, required=True, help='Name of the model', default='t2v_model')
     args = parser.parse_args()
 
-    upload_dict = submission(args.model_name, args.zip_file)
-    print(f"your submission info: \n{upload_dict} \n")
+    # upload_dict = submission(args.model_name, args.zip_file)
+    upload_data = {}
+    cur_file = "/home/yfeng/ygcheng/src/VBench/evaluation_results/results_2025-03-10-00:26:39_eval_results.json"
+    with open(cur_file) as ff:
+        cur_json = json.load(ff)
+        if isinstance(cur_json, dict):
+            for key in cur_json:
+                key_score = cur_json[key][0]
+                print(f"DIM={key}, score={key_score}")
+                upload_data[key.replace('_',' ')] = cur_json[key][0]
+        
+        for key in TASK_INFO:
+            if key not in upload_data:
+                upload_data[key] = 0
+
+    upload_dict = upload_data
+
+    print(f"your submission info:")
+    # Output the values in the specified order
+    for key in ordered_keys:
+        print(upload_data[key])
     normalized_score = get_nomalized_score(upload_dict)
     quality_score = get_quality_score(normalized_score)
     semantic_score = get_semantic_score(normalized_score)
     final_score = get_final_score(quality_score, semantic_score)
+    print(quality_score)
+    print(semantic_score)
+    print(final_score)
     print('+------------------|------------------+')
     print(f'|     quality score|{quality_score}|')
     print(f'|    semantic score|{semantic_score}|')
