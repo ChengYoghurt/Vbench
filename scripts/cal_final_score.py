@@ -93,7 +93,7 @@ if __name__=="__main__":
 
     # upload_dict = submission(args.model_name, args.zip_file)
     upload_data = {}
-    cur_file = "/home/yfeng/ygcheng/src/VBench/evaluation_results/results_2025-03-10-00:26:39_eval_results.json"
+    cur_file = "/home/yfeng/ygcheng/src/VBench/evaluation_results/results_2025-03-16-10:36:21_eval_results.json"
     with open(cur_file) as ff:
         cur_json = json.load(ff)
         if isinstance(cur_json, dict):

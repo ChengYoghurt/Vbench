@@ -118,8 +118,8 @@ class VBench(object):
                     prompt = prompt_dict['prompt_en']
                     prompt_dict['video_list'] = []
                     for i in range(5): # video index for the same prompt
-                        # intended_video_name = f'{prompt}{special_str}-{str(i)}{postfix}' # TODO: Multiple video format support
-                        intended_video_name = f'{prompt}{special_str}{postfix}' # Only single video for one prompt
+                        intended_video_name = f'{prompt}{special_str}-{str(i)}{postfix}' # TODO: Multiple video format support
+                        # intended_video_name = f'{prompt}{special_str}{postfix}' # Only single video for one prompt
                         if intended_video_name in video_names: # if the video exists
                             intended_video_path = os.path.join(videos_path, intended_video_name)
                             prompt_dict['video_list'].append(intended_video_path)
