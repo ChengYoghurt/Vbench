@@ -88,7 +88,8 @@ class VBench(object):
             video_names = os.listdir(videos_path)
             postfix = Path(video_names[0]).suffix
 
-            with open(f'{CUR_DIR}/prompts_per_category/{category}.txt', 'r') as f:
+            # with open(f'{CUR_DIR}/prompts_per_category/{category}.txt', 'r') as f:
+            with open(f'/home/yfeng/ygcheng/src/VBench/prompts/prompts_per_category/scenery.txt', 'r') as f:
                 video_prompts = [line.strip() for line in f.readlines()]
 
             for prompt in video_prompts:
@@ -117,7 +118,8 @@ class VBench(object):
                     prompt = prompt_dict['prompt_en']
                     prompt_dict['video_list'] = []
                     for i in range(5): # video index for the same prompt
-                        intended_video_name = f'{prompt}{special_str}-{str(i)}{postfix}'
+                        intended_video_name = f'{prompt}{special_str}-{str(i)}{postfix}' # TODO: Multiple video format support
+                        # intended_video_name = f'{prompt}{special_str}{postfix}' # Only single video for one prompt
                         if intended_video_name in video_names: # if the video exists
                             intended_video_path = os.path.join(videos_path, intended_video_name)
                             prompt_dict['video_list'].append(intended_video_path)
@@ -130,6 +132,9 @@ class VBench(object):
         
         cur_full_info_path = os.path.join(self.output_path, name+'_full_info.json')
         save_json(cur_full_info_list, cur_full_info_path)
+        # TODO: Handcrafted cur_full_info_list
+        # cur_full_info_path = "/home/yfeng/ygcheng/src/VBench/vbench/osp_full_info.json"
+        # cur_full_info_path = "/home/yfeng/ygcheng/src/VBench/prompts/vbench_200/extracted_prompts_200.json"
         print0(f'Evaluation meta data saved to {cur_full_info_path}')
         return cur_full_info_path
 
@@ -138,6 +143,9 @@ class VBench(object):
         results_dict = {}
         if dimension_list is None:
             dimension_list = self.build_full_dimension_list()
+            # six_dimension_list = ["background_consistency", "object_class", "multiple_objects", "color", "spatial_relationship", "scene", "temporal_style", "human_action", "temporal_flickering", "appearance_style"] 
+            # dimension_list = six_dimension_list
+            print0("Built full dimension list!!!")
         submodules_dict = init_submodules(dimension_list, local=local, read_frame=read_frame)
 
         cur_full_info_path = self.build_full_info_json(videos_path, name, dimension_list, prompt_list, mode=mode, **kwargs)

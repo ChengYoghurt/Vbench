@@ -9,9 +9,12 @@ def fetch_readme():
     return text
 
 def fetch_requirements():
-    filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'requirements.txt')
+    filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fixed_requirements.txt')
     with open(filename, 'r') as f:
-        envs = [line.rstrip('\n') for line in f.readlines() if '@' not in line]
+        envs = [
+            line.rstrip('\n') for line in f.readlines() 
+            if '@' not in line and not line.startswith('#') and line.strip()
+        ]
     return envs
 
 install_requires = fetch_requirements()

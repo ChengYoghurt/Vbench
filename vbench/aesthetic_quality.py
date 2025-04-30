@@ -52,6 +52,7 @@ def laion_aesthetic(aesthetic_model, clip_model, video_list, device):
     video_results = []
     for video_path in tqdm(video_list, disable=get_rank() > 0):
         images = load_video(video_path)
+        images = images[:93]
         image_transform = clip_transform(224)
 
         aesthetic_scores_list = []
@@ -66,7 +67,9 @@ def laion_aesthetic(aesthetic_model, clip_model, video_list, device):
                 aesthetic_scores = aesthetic_model(image_feats).squeeze()
 
             aesthetic_scores_list.append(aesthetic_scores)
-
+        print("Video path=", video_path)
+        print("len(images)=", len(images))
+        print("aesthetic_scores.shape=", aesthetic_scores.shape)
         aesthetic_scores = torch.cat(aesthetic_scores_list, dim=0)
         normalized_aesthetic_scores = aesthetic_scores / 10
         cur_avg = torch.mean(normalized_aesthetic_scores, dim=0, keepdim=True)
@@ -87,6 +90,8 @@ def compute_aesthetic_quality(json_dir, device, submodules_list, **kwargs):
     else:
         barrier()
         aesthetic_model = get_aesthetic_model(aes_path).to(device)
+
+    print("get_rank()=", get_rank())
     clip_model, preprocess = clip.load(vit_path, device=device)
     video_list, _ = load_dimension_info(json_dir, dimension='aesthetic_quality', lang='en')
     video_list = distribute_list_to_rank(video_list)

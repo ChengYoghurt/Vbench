@@ -140,7 +140,8 @@ def main():
         videos_path = args.videos_path,
         name = f'results_{current_time}',
         prompt_list=prompt, # pass in [] to read prompt from filename
-        dimension_list = args.dimension,
+        # dimension_list = args.dimension,
+        dimension_list = None, # ["subject_consistency", "imaging_quality", "dynamic_degree", "aesthetic_quality", "overall_consistency", "motion_smoothness"], # ["overall_consistency"],
         local=args.load_ckpt_from_local,
         read_frame=args.read_frame,
         mode=args.mode,
